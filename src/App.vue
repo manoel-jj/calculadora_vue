@@ -1,47 +1,55 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+  import { ref, computed } from 'vue'
+
+  const number1 = ref('')
+  const number2 = ref('')
+  const operator = ref('+')
+
+  const calculate = () => {
+    let result
+
+    switch (operator.value) {
+      case '+':
+        result = Number(number1.value) + Number(number2.value)
+        break
+      case '-':
+        result = Number(number1.value) - Number(number2.value)
+        break
+      case '*':
+        result = Number(number1.value) * Number(number2.value)
+        break
+      case '/':
+        result = Number(number1.value) / Number(number2.value)
+        break
+      default:
+        result = 0
+    }
+
+    return result
+  }
+
+  const result = computed(() => {
+    return calculate()
+  })
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <container>
+  <div class="calculator">
+    <input class="calculator-display" type="number" v-model="number1" @input="calculate">
+    <select class="operador" v-model="operator" @change="calculate">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+    <input class="calculator-display" type="number" v-model="number2" @input="calculate">
+    <p>{{ result }}</p>
+  </div>
+</container>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
